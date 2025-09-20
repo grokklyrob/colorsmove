@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colors Move - AI Tutoring for Kids</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #4F46E5;
+            --primary-purple: #7C3AED;
+            --primary-green: #10B981;
+            --primary-orange: #F59E0B;
+            --primary-pink: #EC4899;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+            --text-white: #FFFFFF;
+            --bg-white: #FFFFFF;
+            --bg-light: #F9FAFB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient-2);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Fredoka', cursive;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--text-white);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gradient-3);
+            color: var(--text-white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            animation: slideInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+            background: var(--gradient-4);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-family: 'Fredoka', cursive;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg-light);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .about-visual {
+            position: relative;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--gradient-3);
+        }
+
+        .about-visual::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 60%;
+            height: 60%;
+            background: var(--gradient-4);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Learning Grid */
+        .learning-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .learning-card {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .learning-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-5);
+        }
+
+        .learning-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .learning-card h3 {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .learning-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Ethics Section */
+        .ethics {
+            background: var(--gradient-1);
+            color: var(--text-white);
+        }
+
+        .ethics-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .ethics h3 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .ethics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .ethics-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .ethics-item h4 {
+            font-family: 'Fredoka', cursive;
+            margin-bottom: 1rem;
+            color: var(--text-white);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--bg-light);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial {
+            background: var(--bg-white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .testimonial:nth-child(1) { animation: fadeInUp 0.6s ease 0.2s both; }
+        .testimonial:nth-child(2) { animation: fadeInUp 0.6s ease 0.4s both; }
+        .testimonial:nth-child(3) { animation: fadeInUp 0.6s ease 0.6s both; }
+        .testimonial:nth-child(4) { animation: fadeInUp 0.6s ease 0.8s both; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--primary-blue);
+            font-family: 'Fredoka', cursive;
+            opacity: 0.3;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .testimonial-role {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            background: var(--bg-white);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--bg-white);
+            border: 2px solid #E5E7EB;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary-blue);
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.05) 0%, rgba(124, 58, 237, 0.05) 100%);
+        }
+
+        .pricing-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-1);
+            color: var(--text-white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        /* Contact */
+        .contact {
+            background: var(--gradient-5);
+            color: var(--text-white);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background: var(--gradient-3);
+            color: var(--text-white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: var(--gradient-4);
+            transform: translateY(-2px);
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--text-white);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: var(--text-white);
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-white);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-btn {
+            background: var(--gradient-1);
+            color: var(--text-white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .learning-grid,
+            .testimonial-grid,
+            .pricing-grid,
+            .ethics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">Colors Move</a>
+            <ul class="nav-menu">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#learning" class="nav-link">What You'll Learn</a></li>
+                <li><a href="#ethics" class="nav-link">Ethics</a></li>
+                <li><a href="#testimonials" class="nav-link">Reviews</a></li>
+                <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <h1>Colors Move</h1>
+            <p>Igniting Young Minds with AI: Fun, Ethical, and Empowering Learning</p>
+            <a href="#contact" class="cta-button">Book a Free Consultation</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title">About Our AI Tutoring Services</h2>
+            <p class="section-subtitle">Personalized online or in-person coaching for schoolchildren ages 5-18 to learn AI concepts through hands-on, age-appropriate activities that make artificial intelligence accessible and exciting.</p>
+
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Empowering the Next Generation</h3>
+                    <p>At Colors Move, we believe every child deserves the opportunity to understand and shape the future of technology. Our expert tutors combine deep AI knowledge with child-friendly teaching methods to make complex concepts simple and engaging.</p>
+                    <p>We offer personalized learning experiences that build critical thinking, creativity, and future-ready skills. Whether your child is just starting their AI journey or ready to tackle advanced projects, we adapt our approach to their unique learning style and pace.</p>
+                    <p>Our sessions emphasize practical, hands-on activities that make AI concepts come alive, from creating simple chatbots to generating digital art with AI tools.</p>
+                </div>
+                <div class="about-visual"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Section -->
+    <section id="learning" class="section">
+        <div class="container">
+            <h2 class="section-title">What You'll Learn</h2>
+            <p class="section-subtitle">Discover the exciting world of AI through interactive, age-appropriate activities designed to spark curiosity and build real skills.</p>
+
+            <div class="learning-grid">
+                <div class="learning-card">
+                    <h3>🎨 Creative AI Generation</h3>
+                    <p>Master the art of AI-powered creativity! Learn to generate stunning images and videos using simple prompts. Kids will create digital art, design characters, and even produce short animations while understanding how AI interprets and generates creative content.</p>
+                </div>
+
+                <div class="learning-card">
+                    <h3>🧠 AI-Augmented Learning</h3>
+                    <p>Discover how AI can supercharge your learning! Explore AI assistants for research, personalized study plans, and interactive simulations in subjects like math and science. Learn to use AI as a powerful learning companion that adapts to your unique needs.</p>
+                </div>
+
+                <div class="learning-card">
+                    <h3>💻 Advanced AI Environments</h3>
+                    <p>Set up your own AI playground! Get hands-on experience installing kid-safe AI software, creating custom chatbots, and exploring coding platforms like Scratch integrated with AI. Build confidence in managing and customizing your own AI tools.</p>
+                </div>
+
+                <div class="learning-card">
+                    <h3>🌟 AI Fundamentals & Ethics</h3>
+                    <p>Build a strong foundation in AI basics including machine learning concepts, data privacy, and real-world applications. Learn to think critically about AI's role in society and develop responsible habits for using AI technology.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ethics Section -->
+    <section id="ethics" class="section ethics">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Ethical AI Education</h2>
+            <div class="ethics-content">
+                <h3>AI as a Tool, Not a Crutch</h3>
+                <p style="margin-bottom: 2rem;">Our tutoring philosophy emphasizes that AI skills should enhance understanding, not replace traditional learning. We teach children to use AI responsibly and effectively.</p>
+
+                <div class="ethics-grid">
+                    <div class="ethics-item">
+                        <h4>🎯 Smart Usage Guidelines</h4>
+                        <p>Use AI for brainstorming and explaining concepts, not copying homework. Learn to cite AI-generated content and verify facts independently.</p>
+                    </div>
+
+                    <div class="ethics-item">
+                        <h4>⚖️ Balanced Approach</h4>
+                        <p>Set healthy time limits, combine AI tools with human-led discussions, and focus on deep understanding over quick outputs.</p>
+                    </div>
+
+                    <div class="ethics-item">
+                        <h4>🛡️ Risk Awareness</h4>
+                        <p>Understand the dangers of over-reliance and how it can weaken foundational skills. Learn to maintain critical thinking alongside AI assistance.</p>
+                    </div>
+
+                    <div class="ethics-item">
+                        <h4>🌱 Responsible Habits</h4>
+                        <p>Develop lifelong skills for responsible AI use that will serve you well in school, career, and beyond. Build confidence in your own abilities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section testimonials">
+        <div class="container">
+            <h2 class="section-title">What Parents & Students Say</h2>
+            <p class="section-subtitle">Real experiences from families who've discovered the magic of AI learning with Colors Move.</p>
+
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <p class="testimonial-text">"My daughter went from being intimidated by technology to creating her own AI art projects! The tutors at Colors Move made complex AI concepts feel like playtime. She's now excited about the future of technology!"</p>
+                    <div class="testimonial-author">Sarah Johnson</div>
+                    <div class="testimonial-role">Parent of 12-year-old student</div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-text">"The hands-on approach really works for my son. He learned to build his own chatbot and now helps his classmates understand AI concepts. The ethical discussions were especially valuable."</p>
+                    <div class="testimonial-author">Michael Chen</div>
+                    <div class="testimonial-role">Parent of 15-year-old student</div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-text">"I was worried AI would make my kids lazy, but Colors Move taught them to use it responsibly. They now understand when to use AI tools and when to rely on their own thinking. Amazing transformation!"</p>
+                    <div class="testimonial-author">Emily Rodriguez</div>
+                    <div class="testimonial-role">Parent of 10-year-old twins</div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-text">"The online sessions are perfect for our busy schedule. My daughter learned to generate educational content and even created AI-powered study aids. Her confidence has skyrocketed!"</p>
+                    <div class="testimonial-author">David Thompson</div>
+                    <div class="testimonial-role">Parent of 14-year-old student</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="section pricing">
+        <div class="container">
+            <h2 class="section-title">Flexible Packages for Every Budget</h2>
+            <p class="section-subtitle">Choose the perfect plan for your child's AI learning journey. All packages include a free introductory session.</p>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>AI Explorer</h3>
+                    <div class="price">$50<span>/hour</span></div>
+                    <ul class="pricing-features">
+                        <li>1-on-1 online sessions</li>
+                        <li>Basic AI concepts</li>
+                        <li>Creative projects</li>
+                        <li>Email support</li>
+                        <li>Progress tracking</li>
+                    </ul>
+                    <button class="submit-btn" onclick="openModal()">Get Started</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <h3>AI Innovator</h3>
+                    <div class="price">$65<span>/hour</span></div>
+                    <ul class="pricing-features">
+                        <li>1-on-1 online/in-person</li>
+                        <li>Advanced AI topics</li>
+                        <li>Custom projects</li>
+                        <li>Priority support</li>
+                        <li>Portfolio building</li>
+                        <li>Ethics discussions</li>
+                    </ul>
+                    <button class="submit-btn" onclick="openModal()">Get Started</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>AI Master</h3>
+                    <div class="price">$80<span>/hour</span></div>
+                    <ul class="pricing-features">
+                        <li>Small group sessions</li>
+                        <li>Expert-level projects</li>
+                        <li>Competition prep</li>
+                        <li>24/7 support</li>
+                        <li>Certification guidance</li>
+                        <li>Career mentoring</li>
+                    </ul>
+                    <button class="submit-btn" onclick="openModal()">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Start Your AI Journey Today</h2>
+            <p class="section-subtitle" style="color: white;">Ready to unlock your child's potential? Book your free consultation and discover how AI can transform their learning experience.</p>
+
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h3>Book Your Free Consultation</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sessionType">Preferred Session Type</label>
+                            <select id="sessionType" name="sessionType">
+                                <option value="online">Online Session</option>
+                                <option value="in-person">In-Person Session</option>
+                                <option value="unsure">Not Sure Yet</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Tell us about your child and their interests</label>
+                            <textarea id="message" name="message" placeholder="Age, current interests, goals, or any questions..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Book Free Consultation</button>
+                    </form>
+                </div>
+
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p><strong>Email:</strong> hello@colorsmove.ai</p>
+                    <p><strong>Phone:</strong> (555) 123-4567</p>
+                    <p><strong>Hours:</strong> Monday-Friday 9AM-8PM EST</p>
+                    <p><strong>Saturday:</strong> 10AM-4PM EST</p>
+
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Instagram</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">YouTube</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Colors Move – Empowering the Next Generation with Ethical AI</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <h3>🎉 Thank You!</h3>
+            <p>Your consultation request has been submitted successfully. We'll contact you within 24 hours to schedule your free session!</p>
+            <button class="modal-btn" onclick="closeModal()">Got it!</button>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            // Show success modal
+            openModal();
+
+            // Reset form
+            this.reset();
+        });
+
+        // Modal functions
+        function openModal() {
+            document.getElementById('successModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.learning-card, .pricing-card, .ethics-item');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Mobile menu toggle (basic implementation)
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('successModal').classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Form validation enhancement
+        document.getElementById('name').addEventListener('input', function() {
+            const name = this.value.trim();
+            if (name.length < 2) {
+                this.style.borderColor = '#EF4444';
+            } else {
+                this.style.borderColor = '#10B981';
+            }
+        });
+
+        document.getElementById('email').addEventListener('input', function() {
+            const email = this.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                this.style.borderColor = '#EF4444';
+            } else {
+                this.style.borderColor = '#10B981';
+            }
+        });
+    </script>
+</body>
+</html>
